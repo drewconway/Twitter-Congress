@@ -1,0 +1,9 @@
+Pull out functions:
+	GLMNET hyperparameter tuning
+	Fit terms
+	Select documents
+
+Analyze separately:
+	@ mentions
+	URL's
+	Hashtags

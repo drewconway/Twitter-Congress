@@ -1,0 +1,7 @@
+data_loading: on
+munging: off
+logging: off
+load_libraries: on
+libraries: reshape, plyr, ggplot2, stringr, lubridate, tm, glmnet
+as_factors: off
+data_tables: off
