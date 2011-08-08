@@ -1,4 +1,4 @@
-tune.hyperparameters <- function(x, y, lambdas = c(0.01, 0.1, 1, 10), iterations = 3, training.size = 2 / 3)
+tune.hyperparameters <- function(x, y, lambdas = c(0.01, 0.1, 1, 10), alpha = 1, iterations = 3, training.size = 2 / 3)
 {
   performance <- data.frame()
 
@@ -13,7 +13,7 @@ tune.hyperparameters <- function(x, y, lambdas = c(0.01, 0.1, 1, 10), iterations
     remaining.x <- x[remaining.indices, ]
     remaining.y <- y[remaining.indices]
     
-    fit <- glmnet(split.x, split.y)
+    fit <- glmnet(split.x, split.y, alpha = alpha)
     
     for (lambda in lambdas)
     {

@@ -1,11 +1,3 @@
-Pull out functions:
-	GLMNET hyperparameter tuning
-	Fit terms
-	Select documents
+Propagate out politics to the entire web based on URLs
 
-Analyze separately:
-	@ mentions
-	URL's
-	Hashtags
-
-Propagate out politics to the entire web
+Get RMSE comparisons

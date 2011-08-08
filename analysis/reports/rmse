@@ -1,0 +1,24 @@
+Loaded glmnet 1.7 
+[1] "Baseline RMSE: 1.04209171151813"
+Loaded glmnet 1.7 
+[1] "Lasso RMSE: 0.771247079979457"
+Loaded glmnet 1.7 
+[1] "Log Lasso RMSE: 0.770537778749948"
+Loaded glmnet 1.7 
+[1] "Scale Lasso RMSE: 0.771247079979456"
+Loaded glmnet 1.7 
+[1] "Scale Log Lasso RMSE: 0.770537778749948"
+Loaded glmnet 1.7 
+[1] "Ridge RMSE: 0.775460369344651"
+Loaded glmnet 1.7 
+[1] "Log Ridge RMSE: 0.77461225572138"
+Loaded glmnet 1.7 
+[1] "Scale Ridge RMSE: 0.775460369344653"
+Loaded glmnet 1.7 
+[1] "Scale Log Ridge RMSE: 0.77461225572138"
+Loaded glmnet 1.7 
+[1] "Hashtag Lasso RMSE: 0.927114050591901"
+Loaded glmnet 1.7 
+[1] "Mentions Lasso RMSE: 0.985995756332639"
+Loaded glmnet 1.7 
+[1] "URLs Lasso RMSE: 1.018795159021"
