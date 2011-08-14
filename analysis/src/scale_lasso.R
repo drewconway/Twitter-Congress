@@ -16,6 +16,10 @@ test.y <- senate.ideal.points
 training.x <- scale(training.x)
 test.x <- scale(test.x)
 
+indices <- union(which(apply(training.x, 2, sd) != 1), which(apply(test.x, 2, sd) != 1))
+training.x <- training.x[, -indices]
+test.x <- training.x[, -indices]
+
 # Need to use cross-validation here to set lambda.
 lambdas <- c(1, 0.5, 0.25, 0.1, 0.05, 0.01, 0.005, 0.001)
 optimal.lambda <- tune.hyperparameters(training.x,

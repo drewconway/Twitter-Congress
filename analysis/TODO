@@ -11,4 +11,8 @@ Plan:
 	(2) Drew: Fit text model to data from traditional ideal points and social network to produce a "SNA measure of bias". Use Senate to fit model and make predictions for House. (Vice versa?)
 	(3) Compare results.
 
-Revise Hashtag, URL and Mentions models.
+===
+
+Try leaving more terms in the original DTM. Assess RMSE as function of columns.
+
+
