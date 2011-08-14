@@ -15,7 +15,7 @@ fit.and.assess.model <- function(training.x,
   rmse <- sqrt(mean((test.y - predicted.y) ^ 2))
   
   terms <- coef(fit, s = lambda)
-  words <- colnames(x)[which(terms != 0)]
+  words <- colnames(training.x)[which(terms != 0)]
   weights <- terms[which(terms != 0)]
   results <- data.frame(Word = words, Weight = weights)
   write.csv(results, file = output, row.names = FALSE)

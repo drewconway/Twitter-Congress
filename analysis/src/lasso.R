@@ -1,21 +1,17 @@
 library('ProjectTemplate')
 load.project()
 
-# We want the same splits every time.
-set.seed(1234)
+# Train on House; test on Senate
+house.dtm <- dtm[1:max(which(sources == 'House')), ]
+senate.dtm <- dtm[min(which(sources == 'Senate')):length(sources), ]
+house.ideal.points <- ideal.points[1:max(which(sources == 'House'))]
+senate.ideal.points <- ideal.points[min(which(sources == 'Senate')):length(sources)]
 
-# Experiment with removing excessively sparse terms.
-# 0.99 => 87 terms
-# 0.999 => 1455 terms
-# 0.9995 => 2728 terms
-# 0.9999 => 13022 terms
-dtm <- removeSparseTerms(dtm, 0.9995)
+training.x <- as.matrix(house.dtm)
+training.y <- house.ideal.points
 
-x <- as.matrix(dtm)
-y <- ideal.points
-
-# Set up training set and test set.
-source(file.path('src', 'set_up_regression.R'))
+test.x <- as.matrix(senate.dtm)
+test.y <- senate.ideal.points
 
 # Need to use cross-validation here to set lambda.
 lambdas <- c(1, 0.5, 0.25, 0.1, 0.05, 0.01, 0.005, 0.001)
@@ -32,4 +28,4 @@ rmse <- fit.and.assess.model(training.x,
                              alpha = 1,
                              lambda = optimal.lambda,
                              output = file.path('reports', 'lasso.csv'))
-print(paste('Lasso RMSE:', rmse))
+cat(paste('Lasso RMSE:', rmse), file = file.path('reports', 'rmse'), append = TRUE)

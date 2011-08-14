@@ -1,8 +1,10 @@
 library('ProjectTemplate')
 load.project()
 
-y <- ideal.points
+house.ideal.points <- ideal.points[1:max(which(sources == 'House'))]
+senate.ideal.points <- ideal.points[min(which(sources == 'Senate')):length(sources)]
 
-rmse <- sqrt(mean((y - mean(y)) ^ 2))
+rmse <- sqrt(mean((senate.ideal.points - mean(house.ideal.points)) ^ 2))
 
-print(paste('Baseline RMSE:', rmse))
+unlink(file.path('reports', 'rmse'))
+cat(paste('Baseline RMSE:', rmse), file = file.path('reports', 'rmse'), append = TRUE)

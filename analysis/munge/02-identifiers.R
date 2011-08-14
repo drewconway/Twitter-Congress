@@ -1,0 +1,16 @@
+senate.tweets <- transform(senate.tweets,
+                           label = paste(last,
+                                         ' (',
+                                         party,
+                                         '-',
+                                         state,
+                                         ')',
+                                         sep = ''))
+house.tweets <- transform(house.tweets,
+                          label = paste(last,
+                                        ' (',
+                                        party,
+                                        '-',
+                                        state,
+                                        ')',
+                                        sep = ''))

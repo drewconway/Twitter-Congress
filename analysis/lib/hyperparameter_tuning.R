@@ -32,5 +32,5 @@ tune.hyperparameters <- function(x, y, lambdas = c(0.01, 0.1, 1, 10), alpha = 1,
                                 RMSE == with(mean.rmse, min(RMSE))),
                          Lambda)
   
-  return(optimal.lambda)
+  return(optimal.lambda[1])
 }
