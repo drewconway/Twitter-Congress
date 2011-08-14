@@ -2,3 +2,5 @@
 .Rhistory
 *.pyc
 congress_tweets
+analysis/cache
+analysis/data

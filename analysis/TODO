@@ -1,3 +1,12 @@
 Propagate out politics to the entire web based on URLs
 
 Get RMSE comparisons
+
+Want to find a way to focus on terms that occur in multiple tweets.
+
+===
+
+Plan:
+	(1) JMW: Fit text model to data from traditional ideal points and text to produce a "text measure of bias". Use Senate to fit model and make predictions for House. (Seems better to go other direction?)
+	(2) Drew: Fit text model to data from traditional ideal points and social network to produce a "SNA measure of bias". Use Senate to fit model and make predictions for House. (Vice versa?)
+	(3) Compare results.
