@@ -28,4 +28,4 @@ rmse <- fit.and.assess.model(training.x,
                              alpha = 1,
                              lambda = optimal.lambda,
                              output = file.path('reports', 'lasso.csv'))
-cat(paste('Lasso RMSE:', rmse), file = file.path('reports', 'rmse'), append = TRUE)
+cat(paste('Lasso RMSE:', rmse, '\n'), file = file.path('reports', 'rmse'), append = TRUE)

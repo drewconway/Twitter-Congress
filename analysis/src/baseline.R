@@ -7,4 +7,4 @@ senate.ideal.points <- ideal.points[min(which(sources == 'Senate')):length(sourc
 rmse <- sqrt(mean((senate.ideal.points - mean(house.ideal.points)) ^ 2))
 
 unlink(file.path('reports', 'rmse'))
-cat(paste('Baseline RMSE:', rmse), file = file.path('reports', 'rmse'), append = TRUE)
+cat(paste('Baseline RMSE:', rmse, '\n'), file = file.path('reports', 'rmse'), append = TRUE)
