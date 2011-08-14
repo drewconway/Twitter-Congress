@@ -1,24 +1,20 @@
 library('ProjectTemplate')
 load.project()
 
-# We want the same splits every time.
-set.seed(1234)
+# Train on House; test on Senate
+house.dtm <- dtm[1:max(which(sources == 'House')), ]
+senate.dtm <- dtm[min(which(sources == 'Senate')):length(sources), ]
+house.ideal.points <- ideal.points[1:max(which(sources == 'House'))]
+senate.ideal.points <- ideal.points[min(which(sources == 'Senate')):length(sources)]
 
-# Experiment with removing excessively sparse terms.
-# 0.99 => 87 terms
-# 0.999 => 1455 terms
-# 0.9995 => 2728 terms
-# 0.9999 => 13022 terms
-dtm <- removeSparseTerms(dtm, 0.9995)
+training.x <- as.matrix(house.dtm)
+training.y <- house.ideal.points
 
-x <- as.matrix(dtm)
-y <- ideal.points
+test.x <- as.matrix(senate.dtm)
+test.y <- senate.ideal.points
 
-# Use a log transform on the counts.
-x <- scale(x)
-
-# Set up training set and test set.
-source(file.path('src', 'set_up_regression.R'))
+training.x <- scale(training.x)
+test.x <- scale(test.x)
 
 # Need to use cross-validation here to set lambda.
 lambdas <- c(1, 0.5, 0.25, 0.1, 0.05, 0.01, 0.005, 0.001)
@@ -35,4 +31,4 @@ rmse <- fit.and.assess.model(training.x,
                              alpha = 0,
                              lambda = optimal.lambda,
                              output = file.path('reports', 'scale_ridge.csv'))
-print(paste('Scale Ridge RMSE:', rmse))
+cat(paste('Scale Ridge RMSE:', rmse, '\n'), file = file.path('reports', 'rmse'), append = TRUE)
