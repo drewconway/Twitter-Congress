@@ -1,20 +1,20 @@
 library('ProjectTemplate')
 load.project()
 
-# We want the same splits every time.
-set.seed(1234)
-
-# Only use hashtags.
+# Only use URL's.
 dtm <- dtm[, grep('^http', colnames(dtm), perl = TRUE)]
 
-# Still need to enforce less sparsity.
-dtm <- removeSparseTerms(dtm, 0.9999)
+# Train on House; test on Senate
+house.dtm <- dtm[1:max(which(sources == 'House')), ]
+senate.dtm <- dtm[min(which(sources == 'Senate')):length(sources), ]
+house.ideal.points <- ideal.points[1:max(which(sources == 'House'))]
+senate.ideal.points <- ideal.points[min(which(sources == 'Senate')):length(sources)]
 
-x <- as.matrix(dtm)
-y <- ideal.points
+training.x <- as.matrix(house.dtm)
+training.y <- house.ideal.points
 
-# Set up training set and test set.
-source(file.path('src', 'set_up_regression.R'))
+test.x <- as.matrix(senate.dtm)
+test.y <- senate.ideal.points
 
 # Need to use cross-validation here to set lambda.
 lambdas <- c(1, 0.5, 0.25, 0.1, 0.05, 0.01, 0.005, 0.001)
@@ -31,4 +31,4 @@ rmse <- fit.and.assess.model(training.x,
                              alpha = 1,
                              lambda = optimal.lambda,
                              output = file.path('reports', 'urls_lasso.csv'))
-print(paste('URLs Lasso RMSE:', rmse))
+cat(paste('URLs RMSE:', rmse, '\n'), file = file.path('reports', 'rmse'), append = TRUE)
