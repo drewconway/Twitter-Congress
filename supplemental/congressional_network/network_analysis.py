@@ -28,9 +28,9 @@ def main():
 	mc_core = core.k_core(twitter_mc, 2)
 	
 	# Output results
-	nx.write_edgelist(twitter_graph, 'twitter_congress_clean', delimiter='\t')
-	nx.write_edgelist(twitter_mc, 'twitter_congress_mc.edgelist', delimiter='\t')
-	nx.write_edgelist(mc_core, 'twitter_congress_mc_2core.edgelist', delimiter='\t')
+	nx.write_edgelist(twitter_graph, 'twitter_congress_clean.edgelist', delimiter='\t', data=False)
+	nx.write_edgelist(twitter_mc, 'twitter_congress_mc.edgelist', delimiter='\t', data=False)
+	nx.write_edgelist(mc_core, 'twitter_congress_mc_2core.edgelist', delimiter='\t', data=False)
 
 if __name__ == '__main__':
 	main()
