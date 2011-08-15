@@ -5,3 +5,11 @@ congress_tweets
 analysis/cache
 analysis/data
 analysis/EC2_NOTE
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+.Rapp.*
+
