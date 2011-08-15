@@ -20,7 +20,7 @@ conn <- dbConnect("SQLite", "congress_tweets")
 tweet.table <- dbReadTable(conn, "tweets") 
 
 # Get word list
-word.list <- readLines("word_list_moby_crossword.flat.txt")
+# word.list <- readLines("../../tmp/word_list_moby_crossword.flat.txt")
 
 # Convert 'created_at' column to POSIXlt type
 tweet.table$created_at <- strptime(tweet.table$created_at, "%a %b %d %H:%M:%S +0000 %Y")
