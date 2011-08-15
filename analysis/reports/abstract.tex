@@ -1,21 +1,110 @@
-Within the field of political science, interest in statistical methods for the automatic analysis of text has grown considerably in recent years: see, for example, Grimmer 2011, Cormack, etc., etc. (REFS)
+\documentclass[11pt]{article}
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
-At the same time, interest in the analysis of social networks has been growing. (DREW REVIEW)
+\title{A Comparison of Social Network Analysis and Text Regression using Twitter Data}
+\author{Drew Conway and John Myles White}
+\date{\today}
 
-In our recent work, we have collected a large sample of Twitter data, which provides a rich data set with a large quantity of text and a social graph. We compare the usefulness of text analysis and social network analysis for predicting the political views of Twitter users for which we do not have roll call data.
+\begin{document}
+\maketitle
 
-Here we demonstrate how these methods can be combined to provide a new method for measuring political affiliation and dealing with the new types of observational data that are becoming available. Twitter, the very popular web service, provides a large scale social network in which connections are not reciprocated (unlike Facebook's bidirectional friend relationship); for that reason, Twitter provides one of the most easily accessible directed social graphs in the world. In addition, the primary purpose of Twitter is to distribute small bits of text (no more than 140 characters) to all of the people who have signed up to follow your updates. Thus Twitter also provides us with a new source of data for text analysis.
+\section{Abstract}
+Within the field of political science, interest in statistical methods for the automatic analysis of text has grown considerably in recent years: see, for example, Grimmer 2011, Cormack, etc., etc. (REFS) At the same time, interest in the analysis of social networks has been growing. (DREW REVIEW) In our recent work, we have collected a large sample of Twitter data related to Congress. Twitter provides a rich data set containing both text and social network information about its members. Here we compare the usefulness of text analysis and social network analysis for predicting the political views of Twitter users. To do so, we estimate a model of political orientation using text as inputs: we fit the model to data from Representatives and test it against members of the Senate. Simultaneously, we estimate a model of political orientation using only social network information as inputs; again, we fit the model to data from Representatives and test it against members of the Senate. WE FIND THAT XXX.
 
-To demonstrate how Twitter provides, by itself, sufficient materials for a large scale analysis of political affiliations and expression in the U.S., we take the adjacency graph for the members of the senate and the house. Following (Aaron?) King 2011, we compute the principal components of the adjacency graph and use it to estimate a form of ideal points. 
+\section{Methods}
+There are 67 Senators and 313 Representatives currently using Twitter. From these members of Congress, we have harvested 92,482 tweets using a spider written in Python that makes calls to Twitter's API on a regular basis. In addition to this source of text data, we have using Twitter's API to generate the social graph for Twitter. THIS CONTAINS N NODES, ...
 
-We also run the same style of text analysis using ideal points generated using roll call data in the style of Simon Jackman. We compare results between the two sets of analyses, focusing on commonalities in terms selected by both analyses.
+This data set provides a testbed for comparing methods for trying to propagate measurements of political stance. Because we can use ideal points measured for all of the members of Congress based on roll call data (Jackman REF), it is possibly to test our predictions rigorously. And the bicameral nature of the Congress provides an obvious mechanism for testing a predictive model on held out data: we fit our models to data from the House and then test the models on data from the Senate.
 
-TIME SERIES OF TWITTER ACCOUNTS OPENING?
+Given both text data and social network data, there are two obvious models that we can fit: (1) a text regression model in which the word counts for each tweet are used to predict the ideal point of the tweeting member of Congress; and (2) a social network model in which political views propagate out through the social network with decay at each node.
 
-COMPARISON OF TWO TYPE OF IDEAL POINTS
+By comparing the RMSE of both models on data from the Senate after fitting the models to the House, we can determine the viability of both analytic methods.
 
-EXPLANATION OF LASSO VS. RIDGE: EXAMPLES OF TOP WEIGHTED WORDS
+\subsection{Text Regression}
+The 92,382 tweets in our data set can be treated as 92,382 separate observations; for each of these tweets, we observe the number of occurrences of any of the words in our corpus of tweets. Because many words occur only once, we remove the terms that occur in less than N documents. This is considerable reduction in the number of variables we have to work with: we begin with XXX terms and, after pruning, have only YYY terms. Given these measured word counts, we attempt to predict the ideal point of the member of Congress that wrote each tweet.
 
-RAW COUNTS, LOG1P COUNTS, SCALE COUNTS, LOG1P + SCALE COUNTS
+Despite the considerable pruning we perform before model fitting begins, fitting more than a thousand parameters is likely to induce considerable overfitting. For that reason, we employ regularized regression methods. We models using both the Lasso and ridge regression (REFS): these amount to penalization of the L1 and L2 norms of the coefficients in the fitted models.
 
-We have provided a proof of concept example of the viability of combining social network analysis and text analysis to mine Twitter for insight into the political culture of the U.S.
+Such regularization imposes a tradeoff between the degree of penalization and the model's prediction error: the variable governing this tradeoff is typically denoted $\lambda$ in homage to the Lagrange multipliers first used to formulate ridge regression. This value must be set by the modeler somehow: to do so in a principled way, we fit $\lambda$ using repeated random subsampling of the data from the House. The results of this resampling operation is to find that the optimal value of $\lambda$ under held-out test assessment of performance is $0.0001$. (This value is conditional on the subset of values we tested, which included XXX to YYY.)
+
+After determining the optimal value for $\lambda$, we simply fit the model using standard convex optimization techniques: this is implemented in the R package, glmnet, which we have used for our analyses.
+
+With this, we fit several model variants, including models that use a log transform of the word counts and two Lasso models that use only the hashtags and mentions from the tweets. Even these substantially impoverished models (there are only N hashtags and M mentions) outperform the baseline model under held-out testing.
+
+\section{Results}
+
+\begin{table}[htdp]
+\caption{Model Comparison for Text Regression Variants}
+\begin{center}
+\begin{tabular}{|r|l|l|}
+\hline
+Model & RMSE & $R^2$\\
+\hline
+Baseline & 1.062 & 0.00000 \\
+Lasso & 0.9729 & 0.08390 \\
+Log Lasso & 0.9731 & 0.08371 \\
+Ridge & 0.9771 & 0.07994 \\
+Log Ridge & 0.9774 & 0.07966 \\
+Hashtags & 1.037 & 0.02354 \\
+Mentions & 1.058 & 0.00377 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[htdp]
+\caption{Top 5 Republican and Democratic Terms from Lasso}
+\begin{center}
+\begin{tabular}{|r|l|}
+\hline
+Term & Weight \\
+\hline
+\#jobs & 1.0176 \\grand & 0.8474 \\\#reins & 0.6211 \\\#p2 & 0.6128 \\obamacare. & 0.6039 \\
+\hline
+hayworth & -1.1515 \\\#debt & -1.1711 \\\#askobama & -1.1780 \\delegation & -1.1994 \\\#libya & -1.5589 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[htdp]
+\caption{Top 5 Republican and Democratic Hashtags from Lasso}
+\begin{center}
+\begin{tabular}{|r|l|}
+\hline
+Term & Weight \\
+\hline
+\#jobs & 1.0288 \\\#p2 & 0.6820 \\\#dadt & 0.6780 \\\#reins & 0.6307 \\\#tx17 & 0.6292 \\
+\hline
+\#askobama & -1.2113 \\\#pa11 & -1.2181 \\\#debt & -1.2209 \\\#healthcare & -1.3877 \\\#libya & -1.6383 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[htdp]
+\caption{Top 5 Republican and Democratic Hashtags from Lasso}
+\begin{center}
+\begin{tabular}{|r|l|}
+\hline
+Term & Weight \\
+\hline
+@speakerboehner & 0.7664 \\@foxbusiness & 0.7126 \\@foxnews & 0.6955 \\@gopwhip & 0.6776 \\@thehill & 0.6505 \\
+\hline
+@cspan & -0.0743 \\@wsj & -0.1875 \\@rephensarling & -0.2954 \\@natresources & -0.5474 \\@barackobama & -1.1266 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\section{Discussion}
+We have provided a proof of concept example of the viability of using either social network analysis or text analysis to mine Twitter for insight into the political culture of the U.S. We find that XXX outperforms YYY. All of the methods perform better under held-out data model assessment than the baseline model which predicts the mean ideal point for all members of the Senate.
+
+Future work will need to further improve on the methods we have used and to attempt to combine both social network analysis and text analysis simultaneously.
+
+\end{document}
