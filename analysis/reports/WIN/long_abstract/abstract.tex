@@ -15,7 +15,7 @@
 \usepackage{natbib}
 \bibpunct{(}{)}{;}{a}{,}{}
 
-\title{A Comparison of Network Diffusion and Text Regression Models for Estimating Political Ideology: Congressional Twitter Data}
+\title{A Comparison of Social Network Analysis and Text Regression using Twitter Data}
 \author{Drew Conway and John Myles White}
 \date{\today}
 
@@ -62,9 +62,9 @@ To model political ideology on the Congressional network we construct a simple m
 This equation states that the estimated ideology of some node, $\hat{\pi_{v}}$, is equal to the sum of all broadcast ideologies for some set $N$ of nodes within the network.  In the case of the Congressional Twitter network, the set $N$ will either be the set of Representative or Senators.  These ideological broadcasts decay at an linear rate given the geodesic distance $k$ of $v$ from $i$.  There have been many different decay rates proposed for information transmission in networks within the literature literature \citep{Wu_2004}.  Given the scale of the network this simple linear additive model is preferable both theoretically and for computational tractability.  
 
 \section{Results}
-The results from the text regression and network model analyses are shown in Table 2 below. For the text regression, the baseline model uses only the average ideal point to make predictions for Senators, while the L1 and L2 regularized regression models use coefficients for all 1,361 terms in our pruned corpus. The Hashtags Only model is an L1 regularized regression model using a subset of 79 of the predictors from the full L1 model; similarly, the Mentions Only model is an L1 regularized regression model using only 27 of the predictors from the full L1 model. As an example of the terms that are given large weights by our regression models, we have shown the ten hashtags and mentions with the largest weights: these terms represent either the most strongly Republican or most strongly Democratic terms in our corpus.
+The results from the text regression and network model analyses are shown in Table 2 below. For the text regression, the baseline model uses only the average ideal point to make predictions for Senators, while the L1 and L2 regularized regression models use coefficients for all 1,361 terms in our pruned corpus. The Hashtags Only model is an L1 regularized regression model using a subset of 79 of the predictors from the full L1 model; similarly, the Mentions Only model is an L1 regularized regression model using only 27 of the predictors from the full L1 model. As an example of the terms that are given large weights by our regression models, we have shown the ten hashtags and mentions with the largest weights: these terms represent either the most strongly Republican or most strongly Democratic terms in our corpus when restricted to hashtags or mentions.
 
-With the network model, we see that the results are slightly better than from the text model.  For the results reported in Table 2, we use the ideological scores for the opposing house to predict the other.  For example, we use the scores for the House of Representatives to predict the ideology of Senators in the Twitter network.  As you can see from the table the model for the Senate performs quite well, explaining about 26\% of the variance between the baseline and model RMSE.\footnote{A simple linear transformation was done to the raw network model scores to scale them with respect to the Jackman scores.}
+With the network model, we see that the results are slightly better than from the text model.  For the results reported in Table 2, we use the ideological scores for the opposing house to predict the other.  For example, we use the scores for the House of Representatives to predict the ideology of Senators in the Twitter network.  As you can see from this table, the model for the Senate performs quite well, explaining about 26\% of the variance in our data relative to the baseline model.\footnote{A simple linear transformation was done to the raw network model scores to scale them with respect to the Jackman scores.}
 
 \begin{table}
     \centering
@@ -109,7 +109,7 @@ With the network model, we see that the results are slightly better than from th
         \end{tabular}
 \end{table}
 
-In Figure 1 we visualize the relationship between the baseline Senate scores and the predicted ones from the model.  In the right panel of Figure 1 we replace the points with the surnames of the senators.
+In Figure 1, we visualize the relationship between the true Senate ideal points and the predicted ones from the network model.  In the right panel of Figure 1 we replace the graphed points with the surnames of the senators for ease of examination.
 
 \begin{figure}[!ht]
     \centering
@@ -120,9 +120,9 @@ In Figure 1 we visualize the relationship between the baseline Senate scores and
 \end{figure}
 
 \section{Discussion}
-Our work provides a proof of concept demonstration of the viability of using both social network and text derived from Twitter to model the political culture of the U.S. Future work will need to improve on the fine details of the methods we have employed. Another promising research project is to construct statistical models that employ social network and text data simultaneously as a twofold set of constraints for the estimation of spatial models of political ideology.
+Our work provides a proof of concept demonstration of the viability of using both social network data and text derived from Twitter to model the political culture of the U.S. Future work will need to improve on the fine details of the methods we have employed. Another promising research project is to construct statistical models that employ social network and text data simultaneously as a twofold set of constraints for the estimation of spatial models of political ideology.
 
-For the network model, we are not concerned with the context of a member of Congress's tweets, but rather how they are position within the greater social network of Twitter exposes their political ideology.  This is particularly interesting because Twitter is a \emph{directed graph}, meaning that relationships are not mutual.  The model, therefore, shows that given a set of fixed ideological broadcast nodes within the structure of Twitter, we can accurately estimate the ideology of all other nodes regardless of whether they actually follow anyone.  Put another way, who follows you on Twitter tells us as much about your ideology as who you follow.
+For the network model, we are not concerned with the content of a member of Congress's tweets, but rather with the way in which their position within the greater social network of Twitter exposes their political ideology.  This is particularly interesting because Twitter is a \emph{directed graph}, meaning that relationships are not mutual.  The model, therefore, shows that given a set of fixed ideological broadcast nodes within the structure of Twitter, we can accurately estimate the ideology of all other nodes regardless of whether they actually follow anyone.  Put another way, who follows you on Twitter tells us as much about your ideology as who you follow.
 
 \bibliographystyle{chicago}
 \setstretch{1.0}
